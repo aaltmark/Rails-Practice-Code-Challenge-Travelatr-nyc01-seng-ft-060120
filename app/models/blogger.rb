@@ -8,5 +8,9 @@ class Blogger < ApplicationRecord
     def total_likes
       self.posts.sum { |p| p.likes}
     end
+
+    def most_liked_post
+        self.posts.max_by{|p| p.likes}
+    end
     
 end
