@@ -12,10 +12,21 @@ class BloggersController < ApplicationController
     end 
 
     def create
-        blogger = Blogger.create(blogger_params)
-        redirect_to blogger_path(blogger)
+      @blogger = Blogger.new(blogger_params)
+      if @blogger.save
+        flash[:success] = "Blogger successfully created"
+        redirect_to @blogger
+      else
+        flash[:errors] = @blogger.errors.full_messages
+        redirect_to new_blogger_path
+      end
     end
 
+    private
+
+    def blogger_params
+      params.require(:blogger).permit(:name, :bio, :age)
+    end
     
 
 
