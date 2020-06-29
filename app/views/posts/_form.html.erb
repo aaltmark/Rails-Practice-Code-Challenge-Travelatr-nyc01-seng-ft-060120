@@ -1,0 +1,33 @@
+
+
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <p><%= error %></p>
+  <% end %>
+<% end %>
+
+<%= form_for @post do |f| %>
+<p><%= f.label :title %>
+<%= f.text_field :title %></p>
+
+<p><%= f.label :content %>
+<%= f.text_area :content %></p>
+
+<p>
+<%= f.label :blogger %>
+<%= f.collection_select :blogger_id, Blogger.all, :id, :name %>
+</p>
+
+<p>
+<%= f.label :destination %>
+<%= f.collection_select :destination_id, Destination.all, :id, :name %>
+</p>
+<%# f.hidden_field :likes, value: 0 %>
+<%= f.submit %>
+
+<% end %>
+
+<p><%= link_to "All Posts", posts_path %></p>
+
+
+

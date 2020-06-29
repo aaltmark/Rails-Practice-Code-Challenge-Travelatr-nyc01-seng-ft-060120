@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-    before_action :find_post, only: [:show, :edit, :update, :destroy]
+    before_action :find_post, only: [:show, :edit, :update, :destroy, :add_like]
 
     def index 
         @posts = Post.all
@@ -8,12 +8,19 @@ class PostsController < ApplicationController
     def show 
     end 
 
+    def add_like
+      @post.add_like
+      redirect_to post_path(@post)
+    end
+    
+
     def new
         @post = Post.new
     end 
 
     def create
-      @post = Post.new(blogger_params)
+      @post = Post.new(post_params)
+      # @post.likes = 0
       if @post.save
         flash[:success] = "Post successfully created"
         redirect_to @post
@@ -30,7 +37,7 @@ class PostsController < ApplicationController
        if @post.update(post_params) 
             redirect_to post_path(@post.id)
        else 
-            flash[:my_errors] = @post.errors.full_messages
+            flash[:errors] = @post.errors.full_messages
             redirect_to edit_post_path
        end
     end
